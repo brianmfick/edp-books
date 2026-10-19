@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; manifest-src 'self'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>EDP Books</title>
+<meta name="theme-color" content="#eef1f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e141a" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="EDP Books">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<svg width="0" height="0" class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></symbol>
+  <symbol id="i-money" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M7 9h6M7 13h4M7 17h6"/><path d="M17 8.5v7"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M4 15v4.5h16V15"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M7 20v-7M12 20V6M17 20v-10"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24" fill="currentColor"><circle cx="5.5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="18.5" cy="12" r="1.8"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20h18"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h5v16h-5"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h9"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M4 19.5h16"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 8A8 8 0 1 0 20 13"/><path d="M20 3.5V8h-4.5"/></symbol>
+</svg>
+
+<div id="auth" class="auth" hidden></div>
+
+<div id="app" class="shell" hidden>
+  <nav class="side" aria-label="Main">
+    <div class="brand">
+      <div class="brand-mark">EDP</div>
+      <div><div class="brand-name">EDP Books</div><div class="brand-sub">Business and personal</div></div>
+    </div>
+    <a href="#home"><svg><use href="#i-home"/></svg>Home</a>
+    <a href="#money"><svg><use href="#i-money"/></svg>Money in and out</a>
+    <a href="#statements"><svg><use href="#i-upload"/></svg>Statements</a>
+    <a href="#reports"><svg><use href="#i-chart"/></svg>Reports</a>
+    <a href="#flags"><svg><use href="#i-flag"/></svg>Red flags<span class="badge" id="side-flags"></span></a>
+    <a href="#accounts"><svg><use href="#i-bank"/></svg>Accounts</a>
+    <a href="#settings"><svg><use href="#i-gear"/></svg>Settings</a>
+    <div class="spacer"></div>
+    <a href="#signout" data-act="signout"><svg><use href="#i-out"/></svg>Sign out</a>
+  </nav>
+
+  <div class="main">
+    <header class="top">
+      <div class="top-in">
+        <div class="top-title"><div class="label" id="top-eyebrow">EDP Books</div><h1 id="top-h1">Home</h1></div>
+        <div class="top-actions">
+          <label class="sr-year"><span class="label" hidden>Year</span>
+            <select id="year" aria-label="Year"></select>
+          </label>
+          <button class="btn small ghost" type="button" data-act="refresh" aria-label="Refresh"><svg><use href="#i-refresh"/></svg></button>
+        </div>
+      </div>
+    </header>
+    <main id="view" class="page" tabindex="-1"></main>
+  </div>
+
+  <nav class="tabs" aria-label="Main">
+    <a href="#home"><svg><use href="#i-home"/></svg>Home</a>
+    <a href="#money"><svg><use href="#i-money"/></svg>Money</a>
+    <a href="#statements"><svg><use href="#i-upload"/></svg>Upload</a>
+    <a href="#reports"><svg><use href="#i-chart"/></svg>Reports</a>
+    <a href="#more"><svg><use href="#i-more"/></svg>More<span class="dot" id="tab-dot" hidden></span></a>
+  </nav>
+</div>
+
+<dialog id="dlg"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="vendor/supabase-2.117.2.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
