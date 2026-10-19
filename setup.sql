@@ -87,7 +87,6 @@ create table if not exists public.transactions (
   updated_at   timestamptz not null default now()
 );
 
-drop index if exists public.transactions_import_key;
 create unique index if not exists transactions_import_key_all
   on public.transactions (user_id, import_key);
 create index if not exists transactions_user_date on public.transactions (user_id, date desc);
@@ -113,8 +112,7 @@ begin
   return new;
 end $$;
 
-drop trigger if exists transactions_touch on public.transactions;
-create trigger transactions_touch before update on public.transactions
+create or replace trigger transactions_touch before update on public.transactions
   for each row execute function public.touch_updated_at();
 
 -- ---------------------------------------------------------------- views
@@ -151,10 +149,12 @@ do $$
 declare t text;
 begin
   foreach t in array array['accounts','categories','payees','statements','transactions','flags'] loop
-    execute format('drop policy if exists "owner only" on public.%I', t);
-    execute format(
-      'create policy "owner only" on public.%I for all to authenticated
-         using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()))', t);
+    if not exists (select 1 from pg_policies
+                   where schemaname = 'public' and tablename = t and policyname = 'owner only') then
+      execute format(
+        'create policy "owner only" on public.%I for all to authenticated
+           using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()))', t);
+    end if;
   end loop;
 end $$;
 
@@ -237,8 +237,7 @@ end $$;
 
 revoke execute on function public.seed_new_user() from public, anon, authenticated;
 
-drop trigger if exists edp_books_seed on auth.users;
-create trigger edp_books_seed after insert on auth.users
+create or replace trigger edp_books_seed after insert on auth.users
   for each row execute function public.seed_new_user();
 
 select public.seed_categories(id) from auth.users;
@@ -249,11 +248,18 @@ insert into storage.buckets (id, name, public, file_size_limit)
 values ('statements', 'statements', false, 26214400)
 on conflict (id) do nothing;
 
-drop policy if exists "statements: owner reads"   on storage.objects;
-drop policy if exists "statements: owner uploads" on storage.objects;
-create policy "statements: owner reads" on storage.objects for select to authenticated
-  using (bucket_id = 'statements' and (storage.foldername(name))[1] = (select auth.uid())::text);
-create policy "statements: owner uploads" on storage.objects for insert to authenticated
-  with check (bucket_id = 'statements' and (storage.foldername(name))[1] = (select auth.uid())::text);
+do $$
+begin
+  if not exists (select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects'
+                 and policyname = 'statements: owner reads') then
+    create policy "statements: owner reads" on storage.objects for select to authenticated
+      using (bucket_id = 'statements' and (storage.foldername(name))[1] = (select auth.uid())::text);
+  end if;
+  if not exists (select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects'
+                 and policyname = 'statements: owner uploads') then
+    create policy "statements: owner uploads" on storage.objects for insert to authenticated
+      with check (bucket_id = 'statements' and (storage.foldername(name))[1] = (select auth.uid())::text);
+  end if;
+end $$;
 
 select 'EDP Books is set up' as result;
